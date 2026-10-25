@@ -5,6 +5,9 @@ services:
       POSTGRES_DB: tasks
       POSTGRES_USER: tasks
       POSTGRES_PASSWORD: tasks
+    volumes:
+      # Creates the `auth` database and user on the first start of an empty volume.
+      - ./docker/postgres/init-auth-db.sql:/docker-entrypoint-initdb.d/init-auth-db.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U tasks -d tasks"]
       interval: 2s
@@ -15,6 +18,16 @@ services:
     build:
       context: .
       dockerfile: task-service/Dockerfile
+    environment:
+      DB_HOST: postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: auth-service/Dockerfile
     environment:
       DB_HOST: postgres
     depends_on:

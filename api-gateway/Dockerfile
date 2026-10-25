@@ -3,6 +3,7 @@ WORKDIR /build
 COPY pom.xml .
 COPY api-gateway/pom.xml api-gateway/
 COPY task-service/pom.xml task-service/
+COPY auth-service/pom.xml auth-service/
 RUN mvn -B -q -pl api-gateway dependency:go-offline
 COPY api-gateway/src api-gateway/src
 RUN mvn -B -q -pl api-gateway package -DskipTests

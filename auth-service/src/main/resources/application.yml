@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: auth-service
+  r2dbc:
+    url: r2dbc:postgresql://${DB_HOST:localhost}:5432/${DB_NAME:auth}
+    username: ${DB_USER:auth}
+    password: ${DB_PASSWORD:auth}
+  # Flyway runs once at startup over a plain JDBC connection (no pool).
+  flyway:
+    url: jdbc:postgresql://${DB_HOST:localhost}:5432/${DB_NAME:auth}
+    user: ${DB_USER:auth}
+    password: ${DB_PASSWORD:auth}
+server:
+  port: 8082

@@ -19,6 +19,7 @@
     <modules>
         <module>api-gateway</module>
         <module>task-service</module>
+        <module>auth-service</module>
     </modules>
 
     <properties>
