@@ -14,3 +14,18 @@ spring:
               uri: ${TASK_SERVICE_URL:http://localhost:8081}
               predicates:
                 - Path=/api/me/tasks,/api/me/tasks/**
+            # OpenAPI documents, public and outside /api so they never collide with resource paths.
+            - id: auth-service-api-docs
+              uri: ${AUTH_SERVICE_URL:http://localhost:8082}
+              predicates:
+                - Method=GET
+                - Path=/api-docs/auth
+              filters:
+                - SetPath=/v3/api-docs
+            - id: task-service-api-docs
+              uri: ${TASK_SERVICE_URL:http://localhost:8081}
+              predicates:
+                - Method=GET
+                - Path=/api-docs/tasks
+              filters:
+                - SetPath=/v3/api-docs

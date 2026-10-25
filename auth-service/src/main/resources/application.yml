@@ -12,5 +12,7 @@ spring:
     password: ${DB_PASSWORD:auth}
 server:
   port: 8082
+springdoc:
+  default-produces-media-type: application/json
 auth:
   issuer: http://auth-service:8082

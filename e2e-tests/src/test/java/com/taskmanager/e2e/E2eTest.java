@@ -6,6 +6,6 @@ class E2eTest {
 
     @Karate.Test
     Karate all() {
-        return Karate.run("classpath:auth", "classpath:tasks");
+        return Karate.run("classpath:auth", "classpath:tasks", "classpath:apidocs");
     }
 }

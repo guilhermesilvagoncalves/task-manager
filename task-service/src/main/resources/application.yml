@@ -12,6 +12,8 @@ spring:
     password: ${DB_PASSWORD:tasks}
 server:
   port: 8081
+springdoc:
+  default-produces-media-type: application/json
 auth:
   # Public keys of the auth service; only reachable inside the docker network.
   jwks-uri: ${AUTH_JWKS_URI:http://localhost:8082/.well-known/jwks.json}
