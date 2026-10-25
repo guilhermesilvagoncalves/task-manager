@@ -18,6 +18,17 @@
         <gatewayUrl>http://localhost:8080</gatewayUrl>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- Transitive from Karate (thymeleaf); 3.3.4 is affected by GHSA-crwc-vw2r-qr6m. -->
+            <dependency>
+                <groupId>ognl</groupId>
+                <artifactId>ognl</artifactId>
+                <version>3.4.17</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>io.karatelabs</groupId>

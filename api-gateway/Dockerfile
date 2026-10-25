@@ -10,6 +10,8 @@ COPY api-gateway/src api-gateway/src
 RUN mvn -B -q -pl api-gateway package -DskipTests
 
 FROM eclipse-temurin:25-jre-alpine
+# Base image OS packages can lag behind Alpine security fixes (e.g. brotli); apply them at build time.
+RUN apk upgrade --no-cache
 WORKDIR /app
 COPY --from=build /build/api-gateway/target/api-gateway-*.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
