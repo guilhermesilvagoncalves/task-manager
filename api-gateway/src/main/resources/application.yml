@@ -6,13 +6,11 @@ spring:
       server:
         webflux:
           routes:
-            # Must come before the catch-all /api/** route.
             - id: auth-service
               uri: ${AUTH_SERVICE_URL:http://localhost:8082}
-              order: -1
               predicates:
                 - Path=/api/auth/**
             - id: task-service
               uri: ${TASK_SERVICE_URL:http://localhost:8081}
               predicates:
-                - Path=/api/**
+                - Path=/api/me/tasks,/api/me/tasks/**
