@@ -39,7 +39,6 @@ on their own, without calling the auth service on every request.
 - [x] Wrong password → 401.
 - [x] Unknown email → 401 with the same body as wrong password.
 - [x] Email in a different letter case logs in normally.
-- 
 
 ### Keys — `GET /.well-known/jwks.json`
 - [x] Returns the public key; the response contains no private key material.

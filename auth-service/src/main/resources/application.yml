@@ -1,6 +1,7 @@
 spring:
   application:
     name: auth-service
+  # Default credentials are for local development only; override with DB_USER / DB_PASSWORD.
   r2dbc:
     url: r2dbc:postgresql://${DB_HOST:localhost}:5432/${DB_NAME:auth}
     username: ${DB_USER:auth}

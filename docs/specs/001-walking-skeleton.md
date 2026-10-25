@@ -13,15 +13,15 @@ the gateway to a service that reads from Postgres, everything started by docker 
 - Only the gateway is published on the host.
 
 ## Acceptance criteria
-- [ ] `docker compose down -v && docker compose up --build` starts everything from scratch with no errors.
-- [ ] `curl localhost:8080/api/ping` → 200 with the Postgres version, through the gateway.
-- [ ] Startup logs show the migration applied before the web server starts.
-- [ ] No JDBC pool is created at runtime (`pg_stat_activity` shows only R2DBC connections after a request).
-- [ ] `POST /api/ping` → 405.
-- [ ] `docker compose ps` shows no published port for Postgres or `task-service`.
-- [ ] `mvn test` passes with one slice test for `/api/ping` (200, 405, 503).
-- [ ] Versions used are the latest GA and compatible; this spec lists each one with its source.
-- [ ] README has running instructions.
+- [x] `docker compose down -v && docker compose up --build` starts everything from scratch with no errors.
+- [x] ~~`curl localhost:8080/api/ping` → 200 with the Postgres version, through the gateway.~~ (superseded by spec 003: `/api/ping` and `skeleton` were removed)
+- [x] Startup logs show the migration applied before the web server starts.
+- [x] No JDBC pool is created at runtime (`pg_stat_activity` shows only R2DBC connections after a request).
+- [x] ~~`POST /api/ping` → 405.~~ (superseded by spec 003: `/api/ping` and `skeleton` were removed)
+- [x] `docker compose ps` shows no published port for Postgres or `task-service`.
+- [x] ~~`mvn test` passes with one slice test for `/api/ping` (200, 405, 503).~~ (superseded by spec 003: `/api/ping` and `skeleton` were removed)
+- [x] Versions used are the latest GA and compatible; this spec lists each one with its source.
+- [x] README has running instructions.
 
 ## Versions
 Checked on 2026-10-24. "Latest GA and compatible" means the newest GA release that the
