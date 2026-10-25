@@ -12,3 +12,7 @@ spring:
     password: ${DB_PASSWORD:tasks}
 server:
   port: 8081
+auth:
+  # Public keys of the auth service; only reachable inside the docker network.
+  jwks-uri: ${AUTH_JWKS_URI:http://localhost:8082/.well-known/jwks.json}
+  issuer: ${AUTH_ISSUER:http://auth-service:8082}

@@ -20,6 +20,7 @@ services:
       dockerfile: task-service/Dockerfile
     environment:
       DB_HOST: postgres
+      AUTH_JWKS_URI: http://auth-service:8082/.well-known/jwks.json
     depends_on:
       postgres:
         condition: service_healthy
