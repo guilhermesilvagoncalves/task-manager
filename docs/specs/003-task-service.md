@@ -40,7 +40,9 @@ Authenticated users manage their own tasks. A user never sees or changes another
 - [x] Returns all of the user's tasks, newest first, at most 10 per page, with total count and total pages.
 - [x] No `page` → page 0. Page beyond the last → 200 with an empty list.
 - [x] Negative or non-numeric `page` → 400.
-- [x] Pagination is stable: across all pages, no task appears twice or is skipped.
+- [x] Pagination is stable: while the user's tasks do not change, no task appears twice or is skipped across
+  all pages, even when tasks share the same `createdAt`. A task created or deleted between two page
+  requests shifts the following pages (offset pagination, ADR 014).
 - [x] User has no tasks → 200 with an empty list.
 
 ### Update — `PUT /api/me/tasks/{id}`
