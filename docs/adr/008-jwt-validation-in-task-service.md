@@ -8,6 +8,9 @@ The auth service must not be called on every request.
 ## Decision
 `task-service` is an OAuth2 resource server (Spring Security):
 - `NimbusReactiveJwtDecoder` with the JWKS URI (`AUTH_JWKS_URI`) and an issuer validator (`AUTH_ISSUER`).
+- Only RS256 is accepted, declared explicitly in the decoder.
+- Required claims (spec 005): `exp` must exist and `sub` must be a UUID. A token that fails any check gets
+  the same 401; the response does not say which check failed.
 - The JWKS is fetched on the first request and cached. It is fetched again only when a token has an
   unknown `kid` (e.g. after `auth-service` restarts with a new key).
 - The owner of a task is the token's `sub`. 401 responses are RFC 7807 problem details.

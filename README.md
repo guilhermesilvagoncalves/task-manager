@@ -124,6 +124,8 @@ Business decisions taken where the requirements left a choice:
 ## Known limitations and next steps
 - No refresh token, logout or token revocation; tokens die when `auth-service` restarts.
 - No key rotation, mTLS, rate limiting or account lockout.
+- Tokens carry no audience (`aud`), so it is not validated.
+- A token with an unknown `kid` triggers a JWKS refetch; these refetches are not rate limited.
 - No password reset, email verification, roles or admin views.
 - No PATCH, status transition rules or optimistic concurrency (ETag / If-Match): concurrent updates overwrite each other.
 - No filtering, search, client-defined page size or sort; tasks cannot be shared between users.
@@ -135,7 +137,8 @@ Business decisions taken where the requirements left a choice:
 
 ## Docs
 - Specs: [001 walking skeleton](docs/specs/001-walking-skeleton.md), [002 auth server](docs/specs/002-auth-server.md),
-  [003 task service](docs/specs/003-task-service.md), [004 delivery](docs/specs/004-delivery-documentation.md)
+  [003 task service](docs/specs/003-task-service.md), [004 delivery](docs/specs/004-delivery-documentation.md),
+  [005 JWT required claims](docs/specs/005-jwt-required-claims.md)
 - Architecture decisions:
   - [001 Spring Cloud Gateway](docs/adr/001-spring-cloud-gateway.md)
   - [002 Flyway for schema migrations](docs/adr/002-flyway-for-schema-migrations.md)

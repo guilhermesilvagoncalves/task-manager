@@ -1,13 +1,17 @@
 package com.taskmanager.task;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webflux.test.autoconfigure.WebFluxTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
@@ -35,12 +39,24 @@ class TaskControllerTest {
     private static final String VALID_BODY =
             "{\"title\":\"Title\",\"description\":\"Description\",\"status\":\"TODO\",\"dueDate\":\"2026-11-01\"}";
     private static final String EMOJI = "😀";
+    private static final TestJwks JWKS = new TestJwks();
 
     @Autowired
     private WebTestClient client;
 
     @MockitoBean
     private TaskService service;
+
+    @DynamicPropertySource
+    static void authProperties(DynamicPropertyRegistry registry) {
+        registry.add("auth.jwks-uri", JWKS::uri);
+        registry.add("auth.issuer", () -> TestJwks.ISSUER);
+    }
+
+    @AfterAll
+    static void stopJwks() {
+        JWKS.stop();
+    }
 
     // Authentication
 
@@ -65,6 +81,37 @@ class TaskControllerTest {
                 .expectStatus().isUnauthorized()
                 .expectHeader().contentTypeCompatibleWith(PROBLEM)
                 .expectBody().jsonPath("$.status").isEqualTo(401);
+        verifyNoInteractions(service);
+    }
+
+    @Test
+    void signedTokenWithoutSubjectReturnsUnauthorizedProblem() {
+        expectGenericUnauthorized(JWKS.sign(TestJwks.validClaims().subject(null).build()));
+    }
+
+    @Test
+    void signedTokenWithNonUuidSubjectReturnsUnauthorizedProblem() {
+        expectGenericUnauthorized(JWKS.sign(TestJwks.validClaims().subject("admin").build()));
+    }
+
+    @Test
+    void signedTokenFromAuthServiceIsAccepted() {
+        when(service.list(any(), eq(0))).thenReturn(Mono.just(new TaskPage(List.of(), 0, 10, 0, 0)));
+
+        client.get().uri("/api/me/tasks").header("Authorization", "Bearer " + JWKS.sign(TestJwks.validClaims().build()))
+                .exchange()
+                .expectStatus().isOk();
+    }
+
+    private void expectGenericUnauthorized(String token) {
+        client.get().uri("/api/me/tasks").header("Authorization", "Bearer " + token).exchange()
+                .expectStatus().isUnauthorized()
+                .expectHeader().valueEquals(HttpHeaders.WWW_AUTHENTICATE, "Bearer")
+                .expectHeader().contentTypeCompatibleWith(PROBLEM)
+                .expectBody()
+                .jsonPath("$.status").isEqualTo(401)
+                .jsonPath("$.title").isEqualTo("Unauthorized")
+                .jsonPath("$.detail").isEqualTo("Missing or invalid token");
         verifyNoInteractions(service);
     }
 
