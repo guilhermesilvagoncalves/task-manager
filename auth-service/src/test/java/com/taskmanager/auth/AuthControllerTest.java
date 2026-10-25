@@ -87,6 +87,39 @@ class AuthControllerTest {
                 .expectHeader().contentTypeCompatibleWith(PROBLEM);
     }
 
+    @Test
+    void loginReturnsBearerToken() {
+        when(service.login("john@example.com", "password123")).thenReturn(Mono.just(new AccessToken("jwt", 3600)));
+
+        post("/api/auth/login", "{\"email\":\"john@example.com\",\"password\":\"password123\"}")
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.accessToken").isEqualTo("jwt")
+                .jsonPath("$.tokenType").isEqualTo("Bearer")
+                .jsonPath("$.expiresIn").isEqualTo(3600);
+    }
+
+    @Test
+    void loginWithInvalidCredentialsReturnsUnauthorized() {
+        when(service.login("john@example.com", "wrong-password")).thenReturn(Mono.error(new InvalidCredentialsException()));
+
+        post("/api/auth/login", "{\"email\":\"john@example.com\",\"password\":\"wrong-password\"}")
+                .expectStatus().isUnauthorized()
+                .expectHeader().contentTypeCompatibleWith(PROBLEM)
+                .expectBody()
+                .jsonPath("$.status").isEqualTo(401)
+                .jsonPath("$.detail").isEqualTo("Invalid email or password");
+    }
+
+    @Test
+    void loginRejectsBlankFields() {
+        post("/api/auth/login", "{\"email\":\"\",\"password\":\"\"}")
+                .expectStatus().isBadRequest()
+                .expectBody()
+                .jsonPath("$.errors.email").exists()
+                .jsonPath("$.errors.password").exists();
+    }
+
     private WebTestClient.ResponseSpec post(String uri, String body) {
         return client.post().uri(uri).contentType(MediaType.APPLICATION_JSON).bodyValue(body).exchange();
     }

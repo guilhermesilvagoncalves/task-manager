@@ -10,15 +10,20 @@ class PasswordHasherTest {
     private final PasswordHasher hasher = new PasswordHasher();
 
     @Test
-    void hashIsNotThePlainPassword() {
+    void hashIsNotThePlainPasswordAndMatchesIt() {
         String hash = hasher.hash("password123").block();
 
-        assertThat(hash).isNotEqualTo("password123").startsWith("$2a$");
+        assertThat(hash).isNotEqualTo("password123");
+        StepVerifier.create(hasher.matches("password123", hash)).expectNext(true).verifyComplete();
+        StepVerifier.create(hasher.matches("wrong-password", hash)).expectNext(false).verifyComplete();
     }
 
     @Test
     void hashingRunsOffTheCallerThread() {
         StepVerifier.create(hasher.hash("password123").map(hash -> Thread.currentThread().getName()))
+                .assertNext(thread -> assertThat(thread).startsWith("boundedElastic"))
+                .verifyComplete();
+        StepVerifier.create(hasher.matches("password123", "$2a$10$invalid").map(ok -> Thread.currentThread().getName()))
                 .assertNext(thread -> assertThat(thread).startsWith("boundedElastic"))
                 .verifyComplete();
     }

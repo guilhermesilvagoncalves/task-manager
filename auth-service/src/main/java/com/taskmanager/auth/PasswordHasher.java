@@ -12,9 +12,19 @@ import java.util.concurrent.Callable;
 public class PasswordHasher {
 
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    // Computed at startup so an unknown email costs the same as a wrong password.
+    private final String dummyHash = encoder.encode("dummy-password");
 
     public Mono<String> hash(String password) {
         return offload(() -> encoder.encode(password));
+    }
+
+    public Mono<Boolean> matches(String password, String hash) {
+        return offload(() -> encoder.matches(password, hash));
+    }
+
+    public Mono<Void> compareWithDummy(String password) {
+        return matches(password, dummyHash).then();
     }
 
     private static <T> Mono<T> offload(Callable<T> work) {
