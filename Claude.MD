@@ -26,6 +26,8 @@ Follow strictly YAGNI and KISS, in code and in communication.
 - Layered (controller → service → repository) where there is business logic.
 - No interface with a single implementation unless a test or boundary needs it.
 - All code and comments in English.
+- Avoid creating more than 1 class per file, to keep responsibility separated
+- Always check for dependencies on pom files, and remove a dependency once its not needed
 
 ## Testing
 
