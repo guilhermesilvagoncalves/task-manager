@@ -84,7 +84,7 @@ Checked on 2026-10-24. Same base versions as spec 001, plus:
 ## Tasks
 - [x] 1. Users database creation migration on current postgres instance
 - [x] 2. Users table migration + repository (unique email index)
-- [ ] 3. Register endpoint → closes: 201, duplicate 201, 400, concurrent register
+- [x] 3. Register endpoint → closes: 201, duplicate 201, 400, concurrent register
 - [ ] 4. Login with constant-time failure → closes: 200, 401 wrong password, 401 unknown email
 - [ ] 5. Token issuing + JWKS → closes: kid matches, no private key, tampered token rejected
 - [ ] 6. Unmatched routes → closes: 405, 404
