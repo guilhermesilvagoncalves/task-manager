@@ -19,6 +19,13 @@ class PasswordHasherTest {
     }
 
     @Test
+    void passwordOverTheByteLimitDoesNotMatchInsteadOfFailing() {
+        String hash = hasher.hash("password123").block();
+
+        StepVerifier.create(hasher.matches("é".repeat(72), hash)).expectNext(false).verifyComplete();
+    }
+
+    @Test
     void hashingRunsOffTheCallerThread() {
         StepVerifier.create(hasher.hash("password123").map(hash -> Thread.currentThread().getName()))
                 .assertNext(thread -> assertThat(thread).startsWith("boundedElastic"))

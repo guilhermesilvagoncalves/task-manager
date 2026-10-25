@@ -26,31 +26,31 @@ on their own, without calling the auth service on every request.
 ## Acceptance criteria
 
 ### Register — `POST /api/auth/register`
-- [ ] Valid payload → 201 with `id`, `email`, `createdAt`; no password or hash in the response.
-- [ ] Email already registered (any letter case) → 201, to avoid enumeration.
-- [ ] Invalid email, or password outside 8–72 → 400 with the error per field.
-- [ ] Malformed JSON or missing body → 400.
-- [ ] Two simultaneous requests with the same email → both 201, exactly one user stored.
-- [ ] Register with a password over the byte limit (e.g. "é"×72) → 400, never 500.
-- [ ] Login with an over-limit password → 401, never 500.
+- [x] Valid payload → 201 with `id`, `email`, `createdAt`; no password or hash in the response.
+- [x] Email already registered (any letter case) → 201, to avoid enumeration.
+- [x] Invalid email, or password outside 8–72 → 400 with the error per field.
+- [x] Malformed JSON or missing body → 400.
+- [x] Two simultaneous requests with the same email → both 201, exactly one user stored.
+- [x] Register with a password over the byte limit (e.g. "é"×72) → 400, never 500.
+- [x] Login with an over-limit password → 401, never 500.
 
 ### Login — `POST /api/auth/login`
-- [ ] Valid credentials → 200 with `accessToken`, `tokenType: "Bearer"`, `expiresIn` (seconds).
-- [ ] Wrong password → 401.
-- [ ] Unknown email → 401 with the same body as wrong password.
-- [ ] Email in a different letter case logs in normally.
+- [x] Valid credentials → 200 with `accessToken`, `tokenType: "Bearer"`, `expiresIn` (seconds).
+- [x] Wrong password → 401.
+- [x] Unknown email → 401 with the same body as wrong password.
+- [x] Email in a different letter case logs in normally.
 - 
 
 ### Keys — `GET /.well-known/jwks.json`
-- [ ] Returns the public key; the response contains no private key material.
-- [ ] The `kid` in every token header matches a key in the JWKS.
-- [ ] A token signed by another key, with a tampered payload, or with `alg` other than the
+- [x] Returns the public key; the response contains no private key material.
+- [x] The `kid` in every token header matches a key in the JWKS.
+- [x] A token signed by another key, with a tampered payload, or with `alg` other than the
   agreed one is rejected by a validator using this JWKS.
 
 ### General
-- [ ] Unsupported method on an auth route → 405; unknown route under `/api/auth` → 404.
-- [ ] Error responses follow a single format (RFC 7807).
-- [ ] Hashing does not block the request thread.
+- [x] Unsupported method on an auth route → 405; unknown route under `/api/auth` → 404.
+- [x] Error responses follow a single format (RFC 7807).
+- [x] Hashing does not block the request thread.
 
 ## Decisions
 - Module `auth-service`, port 8082, not published on the host.
