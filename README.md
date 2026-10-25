@@ -126,6 +126,7 @@ Business decisions taken where the requirements left a choice:
   ([ADR 014](docs/adr/014-offset-pagination.md)).
 
 ## Known limitations and next steps
+- Tokens are signed with RS256, which the OWASP JWT Cheat Sheet lists as "not recommended". Improvement for the next steps.
 - No refresh token, logout or token revocation; tokens die when `auth-service` restarts.
 - No key rotation, mTLS, rate limiting or account lockout.
 - Tokens carry no audience (`aud`), so it is not validated.
