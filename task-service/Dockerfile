@@ -4,6 +4,7 @@ COPY pom.xml .
 COPY api-gateway/pom.xml api-gateway/
 COPY task-service/pom.xml task-service/
 COPY auth-service/pom.xml auth-service/
+COPY e2e-tests/pom.xml e2e-tests/
 RUN mvn -B -q -pl task-service dependency:go-offline
 COPY task-service/src task-service/src
 RUN mvn -B -q -pl task-service package -DskipTests
