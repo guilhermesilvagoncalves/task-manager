@@ -102,7 +102,8 @@ Business decisions taken where the requirements left a choice:
 
 - **Email is case-insensitive and stored trimmed and lowercase**: `A@x.com` and `a@x.com` are the same person.
 - **Password 8 to 72 characters, at most 72 UTF-8 bytes**: BCrypt ignores bytes after 72.
-- **Registering an existing email returns 201 and stores nothing**: the response never reveals that an email exists.
+- **Registering an existing email returns 201 and stores nothing**: the response never reveals that an email exists
+  ([ADR 013](docs/adr/013-duplicate-registration-returns-201.md)).
 - **Wrong password and unknown email get the same 401**: same reason, no account enumeration.
 - **Tokens last 1 hour, no refresh token**: enough for a session; refresh was out of scope.
 - **Signing key generated in memory at startup; a restart of `auth-service` invalidates every token**:
@@ -117,7 +118,8 @@ Business decisions taken where the requirements left a choice:
 - **Due date is required and may be in the past**: users can record overdue or already-done work.
 - **Update is a full replacement (PUT); last write wins**: a task has one owner, so concurrent edits are rare
   ([ADR 012](docs/adr/012-last-write-wins.md)).
-- **Page size fixed at 10, first page 0, newest first, ties broken by id**: stable paging without client options.
+- **Page size fixed at 10, first page 0, newest first, ties broken by id**: stable paging without client options
+  ([ADR 014](docs/adr/014-offset-pagination.md)).
 
 ## Known limitations and next steps
 - No refresh token, logout or token revocation; tokens die when `auth-service` restarts.
@@ -125,6 +127,9 @@ Business decisions taken where the requirements left a choice:
 - No password reset, email verification, roles or admin views.
 - No PATCH, status transition rules or optimistic concurrency (ETag / If-Match): concurrent updates overwrite each other.
 - No filtering, search, client-defined page size or sort; tasks cannot be shared between users.
+- Offset pagination: a task created or deleted while paging can make another task repeat or be skipped.
+- Runtime images run `apk upgrade` at build time, so builds are not reproducible
+  ([ADR 015](docs/adr/015-apk-upgrade-at-build.md)).
 - Credentials in `docker-compose.yml` and `docker/postgres/` are for local development only.
 - Not set up for production deployment.
 
@@ -144,3 +149,6 @@ Business decisions taken where the requirements left a choice:
   - [010 Stack versions](docs/adr/010-stack-versions.md)
   - [011 `/api/me` prefix](docs/adr/011-api-me-prefix.md)
   - [012 Last write wins](docs/adr/012-last-write-wins.md)
+  - [013 Registering an existing email returns 201](docs/adr/013-duplicate-registration-returns-201.md)
+  - [014 Offset pagination with fixed page size](docs/adr/014-offset-pagination.md)
+  - [015 Apply Alpine security fixes at image build time](docs/adr/015-apk-upgrade-at-build.md)

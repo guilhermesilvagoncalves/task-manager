@@ -10,7 +10,7 @@ COPY auth-service/src auth-service/src
 RUN mvn -B -q -pl auth-service package -DskipTests
 
 FROM eclipse-temurin:25-jre-alpine
-# Base image OS packages can lag behind Alpine security fixes (e.g. brotli); apply them at build time.
+# Base image OS packages can lag behind Alpine security fixes (e.g. brotli); apply them at build time (ADR 015).
 RUN apk upgrade --no-cache
 WORKDIR /app
 COPY --from=build /build/auth-service/target/auth-service-*.jar app.jar
