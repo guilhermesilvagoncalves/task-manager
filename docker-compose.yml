@@ -40,7 +40,9 @@ services:
       dockerfile: api-gateway/Dockerfile
     environment:
       TASK_SERVICE_URL: http://task-service:8081
+      AUTH_SERVICE_URL: http://auth-service:8082
     ports:
       - "8080:8080"
     depends_on:
       - task-service
+      - auth-service
