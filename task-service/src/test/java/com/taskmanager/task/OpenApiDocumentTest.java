@@ -1,5 +1,9 @@
 package com.taskmanager.task;
 
+import com.taskmanager.task.api.TaskController;
+import com.taskmanager.task.config.SecurityConfig;
+import com.taskmanager.task.security.ProblemDetailsAuthenticationEntryPoint;
+import com.taskmanager.task.service.TaskService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

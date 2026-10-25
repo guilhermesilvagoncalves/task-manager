@@ -1,5 +1,9 @@
 package com.taskmanager.auth;
 
+import com.taskmanager.auth.api.AuthController;
+import com.taskmanager.auth.api.JwksController;
+import com.taskmanager.auth.config.SigningKeyConfig;
+import com.taskmanager.auth.service.AuthService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

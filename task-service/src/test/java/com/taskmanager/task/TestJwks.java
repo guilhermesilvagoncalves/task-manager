@@ -23,15 +23,15 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /** Local JWKS endpoint plus a signer, so tests can build tokens the way the auth service does (spec 002). */
-class TestJwks {
+public class TestJwks {
 
-    static final String ISSUER = "http://auth-service:8082";
+    public static final String ISSUER = "http://auth-service:8082";
 
-    final RSAKey signingKey = newKey();
-    final AtomicInteger requests = new AtomicInteger();
+    public final RSAKey signingKey = newKey();
+    public final AtomicInteger requests = new AtomicInteger();
     private final HttpServer server;
 
-    TestJwks() {
+    public TestJwks() {
         byte[] jwks = new JWKSet(signingKey).toPublicJWKSet().toString().getBytes(StandardCharsets.UTF_8);
         try {
             server = HttpServer.create(new InetSocketAddress("localhost", 0), 0);
@@ -49,16 +49,16 @@ class TestJwks {
         server.start();
     }
 
-    String uri() {
+    public String uri() {
         return "http://localhost:" + server.getAddress().getPort() + "/.well-known/jwks.json";
     }
 
-    void stop() {
+    public void stop() {
         server.stop(0);
     }
 
     /** Claims of a token issued by the auth service, valid for one hour. */
-    static JWTClaimsSet.Builder validClaims() {
+    public static JWTClaimsSet.Builder validClaims() {
         Instant now = Instant.now();
         return new JWTClaimsSet.Builder()
                 .issuer(ISSUER)
@@ -67,11 +67,11 @@ class TestJwks {
                 .expirationTime(Date.from(now.plus(Duration.ofHours(1))));
     }
 
-    String sign(JWTClaimsSet claims) {
+    public String sign(JWTClaimsSet claims) {
         return sign(signingKey, claims);
     }
 
-    static String sign(RSAKey key, JWTClaimsSet claims) {
+    public static String sign(RSAKey key, JWTClaimsSet claims) {
         try {
             SignedJWT jwt = new SignedJWT(new JWSHeader.Builder(JWSAlgorithm.RS256).keyID(key.getKeyID()).build(), claims);
             jwt.sign(new RSASSASigner(key));
@@ -81,7 +81,7 @@ class TestJwks {
         }
     }
 
-    static RSAKey newKey() {
+    public static RSAKey newKey() {
         try {
             return new RSAKeyGenerator(2048).keyID(UUID.randomUUID().toString()).generate();
         } catch (JOSEException e) {
