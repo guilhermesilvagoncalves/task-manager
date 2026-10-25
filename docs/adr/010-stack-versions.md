@@ -16,6 +16,7 @@ the Boot line they support. Re-checked on 2026-10-25 against Maven Central, post
 | Spring Boot | 4.1.2 | 4.2.0 is RC1 |
 | Spring Cloud | 2025.1.4 (Gateway 5.0.4) | 2026.0.0 is RC1 and targets Boot 4.2 |
 | springdoc-openapi | 3.2.0 | Latest GA |
+| Swagger UI webjar (`org.webjars:swagger-ui`) | 5.34.0 | Latest GA; `webjars-locator-lite` managed by Boot |
 | PostgreSQL | 18.6 (`postgres:18.6-alpine`) | 19 is not GA |
 | Flyway | 12.4.0 (managed by Boot) | 13.x is a major ahead of what Boot 4.1 supports |
 | r2dbc-postgresql, r2dbc-pool, PostgreSQL JDBC, Spring Security, Testcontainers | Managed by Boot 4.1.2 | Boot BOM |

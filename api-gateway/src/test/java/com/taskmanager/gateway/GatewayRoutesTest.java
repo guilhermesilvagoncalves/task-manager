@@ -16,7 +16,8 @@ class GatewayRoutesTest {
     private WebTestClient client;
 
     @ParameterizedTest
-    @ValueSource(strings = {"/api/tasks", "/api/me", "/api/me/taskss", "/api/ping", "/.well-known/jwks.json"})
+    @ValueSource(strings = {"/api/tasks", "/api/me", "/api/me/taskss", "/api/ping", "/.well-known/jwks.json",
+            "/swagger-ui/index.html", "/webjars/swagger-ui/missing.js"})
     void pathWithoutRouteReturnsNotFoundProblem(String path) {
         client.get().uri(path).exchange()
                 .expectStatus().isNotFound()

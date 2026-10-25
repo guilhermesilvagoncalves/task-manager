@@ -63,6 +63,10 @@ curl -X DELETE localhost:8080/api/me/tasks/<id> -H "Authorization: Bearer $TOKEN
 Errors are RFC 7807 problem details (`application/problem+json`).
 
 ### API documentation
+Swagger UI: open [localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) and pick `auth` or `tasks`
+in the top-right selector. To call the task endpoints: run `POST /api/auth/register` and `POST /api/auth/login`
+from `auth`, copy `accessToken`, switch to `tasks`, click **Authorize** and paste it.
+
 OpenAPI documents (no token needed):
 ```sh
 curl localhost:8080/api-docs/auth
@@ -138,7 +142,7 @@ Business decisions taken where the requirements left a choice:
 ## Docs
 - Specs: [001 walking skeleton](docs/specs/001-walking-skeleton.md), [002 auth server](docs/specs/002-auth-server.md),
   [003 task service](docs/specs/003-task-service.md), [004 delivery](docs/specs/004-delivery-documentation.md),
-  [005 JWT required claims](docs/specs/005-jwt-required-claims.md)
+  [005 JWT required claims](docs/specs/005-jwt-required-claims.md), [006 Swagger UI](docs/specs/006-swagger-ui.md)
 - Architecture decisions:
   - [001 Spring Cloud Gateway](docs/adr/001-spring-cloud-gateway.md)
   - [002 Flyway for schema migrations](docs/adr/002-flyway-for-schema-migrations.md)
@@ -155,3 +159,4 @@ Business decisions taken where the requirements left a choice:
   - [013 Registering an existing email returns 201](docs/adr/013-duplicate-registration-returns-201.md)
   - [014 Offset pagination with fixed page size](docs/adr/014-offset-pagination.md)
   - [015 Apply Alpine security fixes at image build time](docs/adr/015-apk-upgrade-at-build.md)
+  - [017 Swagger UI from the webjar, without springdoc in the gateway](docs/adr/017-swagger-ui-from-webjar.md)

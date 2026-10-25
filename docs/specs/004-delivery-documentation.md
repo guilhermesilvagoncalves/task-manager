@@ -56,7 +56,8 @@ No new features. Documentation, verification and packaging of specs 001–003.
   from, so they work as written through the gateway. No forwarded headers are trusted.
 - `/.well-known/jwks.json` is hidden from the auth-service document: it is internal and not routed by the gateway.
 - Error responses reference a `Problem` schema (type, title, status, detail, instance, errors).
-- Swagger UI is not added: the JSON documents are enough to evaluate the API (YAGNI).
+- ~~Swagger UI is not added: the JSON documents are enough to evaluate the API (YAGNI).~~ Superseded by
+  [spec 006](006-swagger-ui.md): the gateway serves a Swagger UI over both documents.
 - Dependency scan = `osv-scanner scan source -r .` plus `osv-scanner scan image` of the three service images.
   The source scan alone cannot resolve `api-gateway`'s transitive dependencies (Spring Cloud BOM) and reports
   nothing for it; the image scan reads the jars Maven actually resolved, so it has no resolution gaps.

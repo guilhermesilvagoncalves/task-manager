@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Task Manager API</title>
+    <link rel="stylesheet" href="/webjars/swagger-ui/swagger-ui.css">
+</head>
+<body>
+<div id="swagger-ui"></div>
+<script src="/webjars/swagger-ui/swagger-ui-bundle.js"></script>
+<script src="/webjars/swagger-ui/swagger-ui-standalone-preset.js"></script>
+<script>
+    // Documents are routed by the gateway; "Try it out" calls go through it too (relative server "/").
+    SwaggerUIBundle({
+        urls: [{name: "auth", url: "/api-docs/auth"}, {name: "tasks", url: "/api-docs/tasks"}],
+        dom_id: "#swagger-ui",
+        presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+        layout: "StandaloneLayout"
+    });
+</script>
+</body>
+</html>
