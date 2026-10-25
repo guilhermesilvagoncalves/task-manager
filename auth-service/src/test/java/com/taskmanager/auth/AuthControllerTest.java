@@ -120,6 +120,21 @@ class AuthControllerTest {
                 .jsonPath("$.errors.password").exists();
     }
 
+    @Test
+    void unsupportedMethodReturnsMethodNotAllowed() {
+        client.get().uri("/api/auth/login").exchange()
+                .expectStatus().isEqualTo(405)
+                .expectHeader().contentTypeCompatibleWith(PROBLEM);
+    }
+
+    @Test
+    void unknownRouteReturnsNotFound() {
+        client.get().uri("/api/auth/unknown").exchange()
+                .expectStatus().isNotFound()
+                .expectHeader().contentTypeCompatibleWith(PROBLEM)
+                .expectBody().jsonPath("$.status").isEqualTo(404);
+    }
+
     private WebTestClient.ResponseSpec post(String uri, String body) {
         return client.post().uri(uri).contentType(MediaType.APPLICATION_JSON).bodyValue(body).exchange();
     }

@@ -87,5 +87,5 @@ Checked on 2026-10-24. Same base versions as spec 001, plus:
 - [x] 3. Register endpoint → closes: 201, duplicate 201, 400, concurrent register
 - [x] 4. Login with constant-time failure → closes: 200, 401 wrong password, 401 unknown email
 - [x] 5. Token issuing + JWKS → closes: kid matches, no private key, tampered token rejected
-- [ ] 6. Unmatched routes → closes: 405, 404
+- [x] 6. Unmatched routes → closes: 405, 404
 - [ ] 7. Separate DTOs into new classes
