@@ -1,0 +1,3 @@
+CREATE TABLE skeleton (
+    id BIGINT PRIMARY KEY
+);

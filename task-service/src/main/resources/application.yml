@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: task-service
+  r2dbc:
+    url: r2dbc:postgresql://${DB_HOST:localhost}:5432/${DB_NAME:tasks}
+    username: ${DB_USER:tasks}
+    password: ${DB_PASSWORD:tasks}
+  # Flyway runs once at startup over a plain JDBC connection (no pool).
+  flyway:
+    url: jdbc:postgresql://${DB_HOST:localhost}:5432/${DB_NAME:tasks}
+    user: ${DB_USER:tasks}
+    password: ${DB_PASSWORD:tasks}
+server:
+  port: 8081
